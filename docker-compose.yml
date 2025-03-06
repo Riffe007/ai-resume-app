@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  backend:
+    container_name: resume-backend
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URI=mongodb+srv://your-user:your-password@your-cluster.mongodb.net/resumeDB
+      - FRONTEND_URL=https://interactive-resume-brown.vercel.app
+      - PORT=8000
+    restart: always
