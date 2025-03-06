@@ -18,10 +18,10 @@ jobs:
       - name: Set up environment variables
         run: |
           echo "MONGODB_URI=mongodb+srv://${{ secrets.MONGODB_USER }}:${{ secrets.MONGODB_PASSWORD }}@${{ secrets.MONGODB_CLUSTER }}/${{ secrets.MONGODB_DBNAME }}" >> $GITHUB_ENV
-          echo "FRONTEND_URL=${{ secrets.FRONTEND_URL || 'default_frontend_url' }}" >> $GITHUB_ENV
+          echo "FRONTEND_URL=${{ secrets.FRONTEND_URL != '' && secrets.FRONTEND_URL || 'default_frontend_url' }}" >> $GITHUB_ENV
           echo "PORT=8000" >> $GITHUB_ENV
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
-          echo "OPENAI_ASSISTANT_ID=${{ secrets.OPENAI_ASSISTANT_ID }}" >> $GITHUB_ENV
+          echo "OPENAI_ASSISTANT_ID=${{ secrets.ASSISTANT_ID }}" >> $GITHUB_ENV
 
       # ✅ Step 3: Log in to DigitalOcean Container Registry (DOCR)
       - name: Log in to DigitalOcean Container Registry
@@ -52,5 +52,5 @@ jobs:
               -e MONGODB_URI=${{ secrets.MONGODB_URI }} \
               -e FRONTEND_URL=${{ secrets.FRONTEND_URL }} \
               -e OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
-              -e OPENAI_ASSISTANT_ID=${{ secrets.OPENAI_ASSISTANT_ID }} \
-              registry.digitalocean.com/${{ secrets.DROPLET_REPOSITORY }}/resume-backend:latest
+              -e OPENAI_ASSISTANT_ID=${{ secrets.ASSISTANT_ID }} \
+              registry.digitalocean.com/${{ secrets.DOCR_REPOSITORY }}/resume-backend:latest
